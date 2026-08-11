@@ -1,0 +1,145 @@
+/* Reset básico e tipografia */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Estilização dos Formulários (Cards) */
+form {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    margin-bottom: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+form:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Remove bordas antigas do Fieldset */
+fieldset {
+    border: none;
+    padding: 30px;
+}
+
+/* Cabeçalhos dos formulários */
+legend {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a73e8;
+    text-align: center;
+    width: 100%;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e8f0fe;
+    letter-spacing: 0.5px;
+}
+
+/* Destaque para o formulário de exclusão */
+#delConta legend {
+    color: #d93025;
+    border-bottom-color: #fce8e6;
+}
+
+/* Campos de entrada e Rótulos */
+p {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #5f6368;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #dadce0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+}
+
+/* Estilização dos Botões */
+center {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+button, 
+input[type="reset"] {
+    flex: 1;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Botão de Login e Cadastro */
+#formLogin button,
+#formCadastro button[type="submit"] {
+    background-color: #1a73e8;
+    color: #ffffff;
+}
+
+#formLogin button:hover,
+#formCadastro button[type="submit"]:hover {
+    background-color: #1557b0;
+}
+
+/* Botão de Limpar */
+input[type="reset"] {
+    background-color: #f1f3f4;
+    color: #3c4043;
+}
+
+input[type="reset"]:hover {
+    background-color: #e5e7eb;
+}
+
+/* Botão de Excluir Conta */
+#formDeletarContaPropria button {
+    background-color: #d93025 !important;
+    color: white;
+}
+
+#formDeletarContaPropria button:hover {
+    background-color: #b3261e !important;
+}
