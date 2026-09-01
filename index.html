@@ -1,289 +1,108 @@
 <!DOCTYPE html>
 <html lang="pt-br">
- 
 <head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="estilo.css">
-<title>PÁGINA DE LOGIN E GERENCIAMENTO DE USUÁRIOS</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="estilo.css">
+    <title>PÁGINA DE LOGIN E GERENCIAMENTO DE USUÁRIOS</title>
 </head>
- 
 <body>
- 
+
     <!-- ============================================================ -->
-<!-- 1. FORMULÁRIO DE LOGIN                                       -->
-<!-- ============================================================ -->
-<form id="formLogin">
-<fieldset id="fie">
-<legend>LOGIN</legend>
- 
+    <!-- 1. FORMULÁRIO DE LOGIN                                       -->
+    <!-- ============================================================ -->
+    <form id="formLogin">
+        <fieldset id="fie">
+            <legend>LOGIN</legend>
             <p>
-<label>Login (Email): </label>
-<input type="email" id="loginEmail" required>
-</p>
- 
+                <label>Login (Email): </label>
+                <input type="email" id="loginEmail" required>
+            </p>
             <p>
-<label>SENHA :</label>
-<input type="password" id="loginSenha" required>
-</p>
- 
+                <label>SENHA :</label>
+                <input type="password" id="loginSenha" required>
+            </p>
             <center>
-<button type="submit">FAZER LOGIN</button>
-</center>
-</fieldset>
-</form>
- 
- 
+                <button type="submit">FAZER LOGIN</button>
+            </center>
+        </fieldset>
+    </form>
+
     <!-- ============================================================ -->
-<!-- 2. FORMULÁRIO DE CADASTRO                                    -->
-<!-- ============================================================ -->
-<form id="formCadastro">
-<fieldset id="cad">
-<legend>CASO NÃO TENHA LOGIN, CADASTRE-SE</legend>
- 
+    <!-- 2. FORMULÁRIO DE CADASTRO                                    -->
+    <!-- ============================================================ -->
+    <form id="formCadastro">
+        <fieldset id="cad">
+            <legend>CASO NÃO TENHA LOGIN, CADASTRE-SE</legend>
             <p>
-<label>Nome</label>
-<input type="text" id="cadastroNome" required>
-</p>
- 
+                <label>Nome</label>
+                <input type="text" id="cadastroNome" required>
+            </p>
             <p>
-<label>Email</label>
-<input type="email" id="cadastroEmail" required>
-</p>
- 
+                <label>Email</label>
+                <input type="email" id="cadastroEmail" required>
+            </p>
             <p>
-<label>Senha</label>
-<input type="password" id="cadastroSenha" required>
-</p>
- 
+                <label>Senha</label>
+                <input type="password" id="cadastroSenha" required>
+            </p>
             <center>
-<button type="submit">CADASTRE-SE</button>
-<input type="reset" value="Limpar">
-</center>
-</fieldset>
-</form>
- 
- 
+                <button type="submit">CADASTRE-SE</button>
+                <input type="reset" value="Limpar">
+            </center>
+        </fieldset>
+    </form>
+
     <!-- ============================================================ -->
-<!-- 3. EXCLUIR CONTA COMPLETA (AUTH + FIRESTORE)                 -->
-<!-- (Apaga a conta de login e os dados salvos no banco)          -->
-<!-- ============================================================ -->
-<form id="formDeletarContaPropria">
-<fieldset id="delConta">
-<legend>EXCLUIR MINHA CONTA COMPLETA</legend>
-<p>
-<label>E-mail:</label>
-<input type="email" id="deletarEmailAuth" required>
-</p>
-<p>
-<label>Senha:</label>
-<input type="password" id="deletarSenhaAuth" required>
-</p>
-<center>
-<button type="submit" style="background-color: #f44336; color: white; cursor: pointer;">
- 
+    <!-- 3. FORMULÁRIO DE EDIÇÃO DE REGISTRO                         -->
+    <!-- ============================================================ -->
+    <form id="formEditar">
+        <fieldset id="editConta">
+            <legend>EDITAR MEUS DADOS</legend>
+            <p>
+                <label>E-mail Atual:</label>
+                <input type="email" id="editEmailAuth" required>
+            </p>
+            <p>
+                <label>Senha Atual:</label>
+                <input type="password" id="editSenhaAuth" required>
+            </p>
+            <center style="margin-bottom: 15px;">
+                <button type="button" id="btnCarregarDados">CARREGAR DADOS</button>
+            </center>
+
+            <p>
+                <label>Novo Nome:</label>
+                <input type="text" id="editNome" disabled required>
+            </p>
+            <center>
+                <button type="submit" id="btnAtualizar" disabled>SALVAR ALTERAÇÕES</button>
+            </center>
+        </fieldset>
+    </form>
+
+    <!-- ============================================================ -->
+    <!-- 4. EXCLUIR CONTA COMPLETA (AUTH + FIRESTORE)                 -->
+    <!-- ============================================================ -->
+    <form id="formDeletarContaPropria">
+        <fieldset id="delConta">
+            <legend>EXCLUIR MINHA CONTA COMPLETA</legend>
+            <p>
+                <label>E-mail:</label>
+                <input type="email" id="deletarEmailAuth" required>
+            </p>
+            <p>
+                <label>Senha:</label>
+                <input type="password" id="deletarSenhaAuth" required>
+            </p>
+            <center>
+                <button type="submit">
                     EXCLUIR MINHA CONTA PERMANENTEMENTE
-</button>
-</center>
-</fieldset>
-</form>
- 
- 
-    <!-- ============================================================ -->
-<!-- LÓGICA JAVASCRIPT / FIREBASE                                 -->
-<!-- ============================================================ -->
-<script type="module">
- 
-        // 1. IMPORTAÇÕES DOS MÓDULOS DO FIREBASE
- 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
- 
-        // Importações do Firebase Auth
- 
-        import {
- 
-            getAuth,
- 
-            createUserWithEmailAndPassword,
- 
-            signInWithEmailAndPassword,
- 
-            deleteUser
- 
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
- 
-        // Importações do Firestore
- 
-        import {
- 
-            getFirestore,
- 
-            doc,
- 
-            setDoc,
- 
-            deleteDoc
- 
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
- 
- 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAgTyyPHmDKoeiASGh986VboKoQ9EQNn38",
-            authDomain: "bancodedados-6a371.firebaseapp.com",
-             projectId: "bancodedados-6a371",
-            storageBucket: "bancodedados-6a371.firebasestorage.app",
-            messagingSenderId: "982595529125",
-            appId: "1:982595529125:web:cb819182abea81a94da04c",
-            measurementId: "G-0GWC6KWSGW"
-        };
+                </button>
+            </center>
+        </fieldset>
+    </form>
 
-// INICIALIZAÇÃO
-
-
- 
- 
-        // 3. INICIALIZAÇÃO DOS SERVIÇOS
- 
-        const app = initializeApp(firebaseConfig);
- 
-        const auth = getAuth(app);
- 
-        const db = getFirestore(app);
- 
- 
-        // ============================================================
- 
-        // FUNCIONALIDADE 1: CADASTRO DE USUÁRIO
- 
-        // ============================================================
- 
-        document.getElementById("formCadastro").addEventListener("submit", async (e) => {
- 
-            e.preventDefault();
- 
-            const nome = document.getElementById("cadastroNome").value;
- 
-            const email = document.getElementById("cadastroEmail").value;
- 
-            const senha = document.getElementById("cadastroSenha").value;
- 
-            try {
- 
-                // Cria o acesso no Firebase Authentication
- 
-                const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
- 
-                const user = userCredential.user;
- 
-                // Salva o nome e email no Firestore vinculados ao UID do usuário
- 
-                await setDoc(doc(db, "usuarios", user.uid), {
- 
-                    nome: nome,
- 
-                    email: email
- 
-                });
- 
-                alert("Usuário cadastrado com sucesso!");
- 
-                document.getElementById("formCadastro").reset();
- 
-            } catch (error) {
- 
-                alert("Erro ao cadastrar: " + error.message);
- 
-            }
- 
-        });
- 
- 
-        // ============================================================
- 
-        // FUNCIONALIDADE 2: LOGIN DE USUÁRIO
- 
-        // ============================================================
- 
-        document.getElementById("formLogin").addEventListener("submit", async (e) => {
- 
-            e.preventDefault();
- 
-            const email = document.getElementById("loginEmail").value;
- 
-            const senha = document.getElementById("loginSenha").value;
- 
-            try {
- 
-                // Autentica o usuário no Firebase Auth
- 
-                await signInWithEmailAndPassword(auth, email, senha);
- 
-                // Redireciona para a página interna
- 
-                window.location.href = "site.html";
- 
-            } catch (error) {
- 
-                alert("Erro ao realizar login: " + error.message);
- 
-            }
- 
-        });
- 
- 
-        // ============================================================
- 
-        // FUNCIONALIDADE 3: EXCLUIR CONTA COMPLETA (AUTH + FIRESTORE)
- 
-        // ============================================================
- 
-        document.getElementById("formDeletarContaPropria").addEventListener("submit", async (e) => {
- 
-            e.preventDefault();
- 
-            const email = document.getElementById("deletarEmailAuth").value;
- 
-            const senha = document.getElementById("deletarSenhaAuth").value;
- 
-            if (!confirm("Tem certeza que deseja apagar permanentemente esta conta?")) {
- 
-                return;
- 
-            }
- 
-            try {
- 
-                // 1. Faz a verificação/login para garantir autorização
- 
-                const userCredential = await signInWithEmailAndPassword(auth, email, senha);
- 
-                const user = userCredential.user;
- 
-                // 2. Apaga o registro do Firestore
- 
-                await deleteDoc(doc(db, "usuarios", user.uid));
- 
-                // 3. Apaga o login no Firebase Auth
- 
-                await deleteUser(user);
- 
-                alert("Conta excluída permanentemente com sucesso!");
- 
-                document.getElementById("formDeletarContaPropria").reset();
- 
-            } catch (error) {
- 
-                alert("Erro ao excluir a conta: " + error.message);
- 
-            }
- 
-        });
- 
-    </script>
- 
+    <!-- VÍNCULO COM O ARQUIVO JAVASCRIPT SEPARADO -->
+    <script type="module" src="app.js"></script>
 </body>
 </html>
- 
- 
-</body>
-</html>
- 

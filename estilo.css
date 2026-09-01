@@ -53,6 +53,12 @@ legend {
     letter-spacing: 0.5px;
 }
 
+/* Destaque para o formulário de edição */
+#editConta legend {
+    color: #f57c00;
+    border-bottom-color: #ffe0b2;
+}
+
 /* Destaque para o formulário de exclusão */
 #delConta legend {
     color: #d93025;
@@ -124,6 +130,25 @@ input[type="reset"] {
     background-color: #1557b0;
 }
 
+/* Botões da Edição */
+#btnCarregarDados {
+    background-color: #f57c00;
+    color: #ffffff;
+}
+
+#btnCarregarDados:hover {
+    background-color: #e65100;
+}
+
+#btnAtualizar {
+    background-color: #4caf50;
+    color: #ffffff;
+}
+
+#btnAtualizar:hover {
+    background-color: #388e3c;
+}
+
 /* Botão de Limpar */
 input[type="reset"] {
     background-color: #f1f3f4;
@@ -142,4 +167,11 @@ input[type="reset"]:hover {
 
 #formDeletarContaPropria button:hover {
     background-color: #b3261e !important;
+}
+
+/* Botão desabilitado */
+button:disabled {
+    background-color: #cccccc !important;
+    cursor: not-allowed;
+    opacity: 0.6;
 }
